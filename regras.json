@@ -1,0 +1,51 @@
+﻿{
+  "versao": "regras-flex-2025-08-29",
+  "status_exclusao": [
+    "arquivado definitivamente",
+    "arquivamento definitivo"
+  ],
+  "regras_inclusao": [
+    {
+      "motivo": "Assunto + valor mínimo",
+      "condicoes": {
+        "Assuntos": ["Contratos Bancários", "Execução"],
+        "Valor da Causa": { "min": 5000 }
+      }
+    },
+    {
+      "motivo": "Ramo Criminal em tramitação",
+      "condicoes": {
+        "Ramo do Direito": ["Criminal"],
+        "Status": ["Em tramitação"]
+      }
+    },
+    {
+      "motivo": "Ramo do Direito + valor mínimo",
+      "condicoes": {
+        "Ramo do Direito": ["Bancário", "Direito do Trabalho", "DIREITO ADMINISTRATIVO/PUBLICO"],
+        "Valor da Causa": { "min": 5000 }
+      }
+    },
+    {
+      "motivo": "Classe processual permitida",
+      "condicoes": {
+        "Classe Processual": [
+          "Usucapião",
+          "Cumprimento de sentença",
+          "Execução de título extrajudicial",
+          "Cumprimento provisório de sentença",
+          "Execução fiscal",
+          "Recuperação Judicial",
+          "Busca e apreensão",
+          "Alienação fiduciária"
+        ]
+      }
+    },
+    {
+      "motivo": "Fallback por valor",
+      "condicoes": {
+        "Valor da Causa": { "min": 100000 }
+      }
+    }
+  ]
+}
