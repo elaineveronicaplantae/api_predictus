@@ -1,0 +1,31 @@
+﻿<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Predictus{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', path='styles.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <img src="{{ url_for('static', path='logo_tagline1.png') }}" alt="Logo Plantae" class="header-logo">
+        <nav class="header-nav">
+            {% if current_user %}
+                <a href="/logout">Sair</a>
+            {% endif %}
+        </nav>
+    </header>
+
+    <main>
+        {% block content %}
+        {% endblock %}
+    </main>
+
+    <footer>
+        &copy; {{ current_year }} Plantae. Todos os direitos reservados.
+    </footer>
+
+    {% block scripts %}
+    {% endblock %}
+</body>
+</html>

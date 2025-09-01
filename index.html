@@ -1,0 +1,89 @@
+﻿{% extends "base.html" %}
+
+{% block title %}Predictus - Consulta{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1>Predictus</h1>
+    <form id="formImport" enctype="multipart/form-data">
+      <div class="field">
+        <label>Nome do cliente</label>
+        <input type="text" name="nome" id="nome" required />
+      </div>
+      <div class="field">
+        <label>CPF/CNPJ</label>
+        <input type="text" name="cpf_cnpj" id="cpf_cnpj" placeholder="Somente números" required />
+      </div>
+      <div class="field">
+        <label>Planilha (.xlsx, .xls, .csv)</label>
+        <input type="file" name="arquivo" id="arquivo" accept=".xlsx,.xls,.csv" required />
+      </div>
+      <button type="submit" id="btnImportar">Importar Predictus</button>
+    </form>
+
+    <div id="resultado" class="hidden">
+        <h2>Resultados</h2>
+        <div id="resumo" class="mt-3"></div>
+        <hr class="my-4">
+
+        <h3 id="resumo-titulo" class="hidden">Resumo por Classe e Status</h3>
+        <table id="tabela-resumo" class="table table-striped hidden">
+        <thead>
+          <tr>
+            <th>Classe Processual</th>
+            <th>Status</th>
+            <th>Quantidade</th>
+            <th>Valor Total</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+      
+      <hr class="my-4">
+      <div class="d-flex justify-content-between align-items-center mb-2">
+            <h2>Achados</h2>
+            <button type="button" id="btnPrint" class="btn btn-secondary btn-sm">Imprimir</button>
+      </div>
+      <table id="tabela" class="table table-hover">
+        <thead>
+          <tr>
+            <th>Processo</th>
+            <th>Partes Ativas</th>
+            <th>Partes Passivas</th>
+            <th>Classe Processual</th>
+            <th>Valor da Ação</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+
+    <div id="erro" class="erro hidden"></div>
+</div>
+
+<div id="modalDetalhes" class="modal">
+    <div class="modal-content">
+      <span class="close-button">&times;</span>
+      <h2>Detalhes do Processo</h2>
+      <div class="detalhes-grid">
+        <p><strong>Ramo do Direito:</strong> <span id="det-ramo"></span></p>
+        <p><strong>Classe Processual:</strong> <span id="det-classe"></span></p>
+        <p><strong>Instância:</strong> <span id="det-instancia"></span></p>
+        <p><strong>Data de Distribuição:</strong> <span id="det-distribuicao"></span></p>
+        <p><strong>Status:</strong> <span id="det-status"></span></p>
+        <p><strong>Valor da Causa:</strong> <span id="det-valor"></span></p>
+        <p><strong>Tutela Antecipada:</strong> <span id="det-tutela"></span></p>
+        <p><strong>Outras Partes:</strong> <span id="det-outras-partes"></span></p>
+        <p><strong>Julgamentos:</strong> <span id="det-julgamentos"></span></p>
+        <p><strong>1ª Movimentação:</strong> <span id="det-mov1"></span></p>
+        <p><strong>2ª Movimentação:</strong> <span id="det-mov2"></span></p>
+        <p><strong>3ª Movimentação:</strong> <span id="det-mov3"></span></p>
+        <p><strong>Data de Atualização:</strong> <span id="det-atualizacao"></span></p>
+      </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+    <script src="{{ url_for('static', path='app.js') }}"></script>
+{% endblock %}

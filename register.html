@@ -1,0 +1,86 @@
+﻿{% extends "base.html" %}
+
+{% block title %}Cadastro - Predictus{% endblock %}
+
+{% block content %}
+<div class="auth-container">
+    <h1>Primeiro Cadastro</h1>
+    <form id="registerForm">
+        <div class="field">
+            <label for="email">E-mail</label>
+            <input type="email" id="email" name="email" required>
+        </div>
+        <div class="field">
+            <label for="password">Senha</label>
+            <div class="password-wrapper">
+                <input type="password" id="password" name="password" required>
+                <span class="toggle-password">👁️</span>
+            </div>
+        </div>
+        <div class="field">
+            <label for="password_confirm">Confirmar Senha</label>
+            <div class="password-wrapper">
+                <input type="password" id="password_confirm" name="password_confirm" required>
+                <span class="toggle-password">👁️</span>
+            </div>
+        </div>
+        <button type="submit">Cadastrar</button>
+    </form>
+    <div id="message-box" class="message hidden"></div>
+    <div class="auth-link">
+        <p>Já tem uma conta? <a href="/login">Faça o login</a></p>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    document.querySelectorAll('.toggle-password').forEach(item => {
+        item.addEventListener('click', event => {
+            const input = event.target.previousElementSibling;
+            input.type = input.type === 'password' ? 'text' : 'password';
+        });
+    });
+
+    document.getElementById('registerForm').addEventListener('submit', async function(event) {
+        event.preventDefault();
+        const formData = new FormData(this);
+        const messageBox = document.getElementById('message-box');
+        messageBox.classList.add('hidden');
+
+        const password = formData.get('password');
+        const passwordConfirm = formData.get('password_confirm');
+
+        if (password !== passwordConfirm) {
+            messageBox.textContent = 'As senhas não coincidem.';
+            messageBox.className = 'message erro';
+            messageBox.classList.remove('hidden');
+            return;
+        }
+
+        try {
+            const response = await fetch('/register', {
+                method: 'POST',
+                body: new URLSearchParams(formData)
+            });
+
+            const data = await response.json();
+
+            if (!response.ok) {
+                throw new Error(data.detail || 'Falha ao cadastrar.');
+            }
+            
+            messageBox.textContent = 'Cadastro realizado com sucesso! Redirecionando para o login...';
+            messageBox.className = 'message success';
+            messageBox.classList.remove('hidden');
+
+            setTimeout(() => { window.location.href = '/login'; }, 2000);
+
+        } catch (error) {
+            messageBox.textContent = error.message;
+            messageBox.className = 'message erro';
+            messageBox.classList.remove('hidden');
+        }
+    });
+</script>
+{% endblock %}
